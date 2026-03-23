@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fiona Liang | Self Discovery Atlas</title>
+<meta name="description" content="Inner architecture for high-performing leaders. Private strategic advisory by Fiona Liang, founder of Self Discovery Atlas.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0D0D0D;
+    --text: #F5F0EB;
+    --accent: #B8965A;
+    --muted: #888888;
+    --subtle: #1A1A1A;
+    --border: rgba(184,150,90,0.2);
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'DM Sans', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ─── NAVIGATION ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 2rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to bottom, rgba(13,13,13,0.95) 0%, transparent 100%);
+    backdrop-filter: blur(2px);
+  }
+
+  .nav-logo {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    color: var(--text);
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+  .nav-logo:hover { color: var(--accent); }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links li a {
+    font-family: var(--sans);
+    font-size: 0.78rem;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.3s;
+    cursor: pointer;
+  }
+  .nav-links li a:hover,
+  .nav-links li a.active { color: var(--text); }
+
+  /* ─── PAGE SYSTEM ─── */
+  .page {
+    display: none;
+    min-height: 100vh;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .page.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── SHARED SECTION STYLES ─── */
+  .section {
+    padding: 7rem 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: var(--sans);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 2rem;
+  }
+
+  h1, h2, h3 {
+    font-family: var(--serif);
+    font-weight: 400;
+    line-height: 1.2;
+  }
+
+  h1 { font-size: clamp(2.8rem, 6vw, 5.5rem); }
+  h2 { font-size: clamp(2rem, 4vw, 3.2rem); }
+  h3 { font-size: clamp(1.5rem, 2.5vw, 2rem); }
+
+  p {
+    font-family: var(--sans);
+    font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+    font-weight: 300;
+    color: rgba(245,240,235,0.82);
+    max-width: 620px;
+    margin-bottom: 1.6rem;
+    line-height: 1.85;
+  }
+
+  .text-accent { color: var(--accent); }
+
+  hr.divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 0 4rem;
+  }
+
+  /* ─── BUTTONS ─── */
+  .btn {
+    display: inline-block;
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    font-weight: 400;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(245,240,235,0.35);
+    padding-bottom: 0.25rem;
+    cursor: pointer;
+    transition: color 0.3s, border-color 0.3s;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+  }
+  .btn:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .btn-outlined {
+    border: 1px solid rgba(245,240,235,0.35);
+    padding: 0.9rem 2.4rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
+    color: var(--text);
+    text-decoration: none;
+    cursor: pointer;
+    transition: border-color 0.3s, color 0.3s;
+    background: none;
+    display: inline-block;
+    font-family: var(--sans);
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+  .btn-outlined:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* ─── HERO SHARED ─── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-end;
+    padding: 0 4rem 7rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(184,150,90,0.04) 0%,
+      transparent 40%,
+      rgba(184,150,90,0.02) 100%
+    );
+  }
+
+  /* Noise texture overlay */
+  .hero-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    opacity: 0.6;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--sans);
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 2.5rem;
+  }
+
+  .hero h1 {
+    margin-bottom: 2rem;
+    font-style: italic;
+    font-weight: 300;
+  }
+
+  .hero-sub {
+    font-size: clamp(1rem, 1.4vw, 1.15rem);
+    color: rgba(245,240,235,0.65);
+    max-width: 560px;
+    margin-bottom: 3.5rem;
+  }
+
+  /* Gold line decorative */
+  .gold-line {
+    width: 48px;
+    height: 1px;
+    background: var(--accent);
+    margin-bottom: 2.5rem;
+    opacity: 0.7;
+  }
+
+  /* ─── HOME PAGE ─── */
+  #home .hero {
+    background: radial-gradient(ellipse at 20% 80%, rgba(184,150,90,0.06) 0%, transparent 60%);
+  }
+
+  .home-section-2 {
+    padding: 8rem 4rem;
+    border-top: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .home-section-2 .left {
+    position: sticky;
+    top: 8rem;
+    align-self: start;
+  }
+
+  .home-section-3 {
+    padding: 8rem 4rem;
+    border-top: 1px solid var(--border);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .home-section-3 h2 {
+    max-width: 680px;
+    margin-bottom: 3rem;
+  }
+
+  .home-section-4 {
+    padding: 8rem 4rem;
+    border-top: 1px solid var(--border);
+    background: linear-gradient(to right, rgba(184,150,90,0.04) 0%, transparent 60%);
+    max-width: 100%;
+  }
+
+  .home-section-4 .inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin-top: 4rem;
+    border-top: 1px solid var(--border);
+    border-left: 1px solid var(--border);
+  }
+
+  .pillar-item {
+    padding: 2.5rem 2rem;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    transition: background 0.3s;
+  }
+  .pillar-item:hover {
+    background: rgba(184,150,90,0.04);
+  }
+
+  .pillar-num {
+    font-family: var(--serif);
+    font-size: 2.5rem;
+    color: rgba(184,150,90,0.25);
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  .pillar-title {
+    font-family: var(--sans);
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  /* Quote/social proof section */
+  .quote-section {
+    padding: 8rem 4rem;
+    border-top: 1px solid var(--border);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .quote-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 4rem;
+  }
+
+  .quote-card {
+    background: var(--subtle);
+    padding: 3rem 2.5rem;
+    position: relative;
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .quote-card::before {
+    content: '"';
+    font-family: var(--serif);
+    font-size: 5rem;
+    color: rgba(184,150,90,0.15);
+    position: absolute;
+    top: 1rem;
+    left: 2rem;
+    line-height: 1;
+  }
+
+  .quote-placeholder {
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: rgba(136,136,136,0.4);
+    text-transform: uppercase;
+    text-align: center;
+    align-self: center;
+    margin: auto 0;
+  }
+
+  /* Closing CTA section */
+  .cta-section {
+    padding: 10rem 4rem;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(184,150,90,0.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .cta-section h2 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-style: italic;
+    margin-bottom: 1.5rem;
+  }
+
+  .cta-section p {
+    margin: 0 auto 3rem;
+    text-align: center;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    padding: 4rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-left {
+    font-family: var(--serif);
+    font-size: 1rem;
+    color: var(--muted);
+  }
+
+  .footer-right {
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    color: rgba(136,136,136,0.6);
+    text-align: right;
+  }
+
+  /* ─── ABOUT PAGE ─── */
+  #about .hero {
+    min-height: 85vh;
+    align-items: center;
+  }
+
+  .about-body {
+    padding: 0 4rem 8rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 8rem;
+    align-items: start;
+  }
+
+  .about-sticky {
+    position: sticky;
+    top: 8rem;
+  }
+
+  .about-sticky .section-label {
+    margin-bottom: 1rem;
+  }
+
+  .about-text-block {
+    padding: 5rem 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .about-text-block:first-child {
+    border-top: none;
+    padding-top: 2rem;
+  }
+
+  .about-text-block h3 {
+    margin-bottom: 2rem;
+    font-style: italic;
+  }
+
+  .credentials-list {
+    list-style: none;
+    margin-top: 1.5rem;
+  }
+  .credentials-list li {
+    font-family: var(--sans);
+    font-size: 0.88rem;
+    color: rgba(245,240,235,0.7);
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(184,150,90,0.1);
+    letter-spacing: 0.04em;
+  }
+
+  /* ─── WORK WITH ME PAGE ─── */
+  #work .hero {
+    min-height: 90vh;
+    align-items: flex-end;
+  }
+
+  .method-section {
+    padding: 8rem 4rem;
+    border-top: 1px solid var(--border);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .method-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    margin-top: 5rem;
+    border-top: 1px solid var(--border);
+    border-left: 1px solid var(--border);
+  }
+
+  .method-item {
+    padding: 3rem;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    transition: background 0.4s;
+  }
+  .method-item:hover {
+    background: rgba(184,150,90,0.03);
+  }
+
+  .method-num {
+    font-family: var(--serif);
+    font-size: 0.85rem;
+    color: var(--accent);
+    opacity: 0.7;
+    letter-spacing: 0.1em;
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  .method-title {
+    font-family: var(--serif);
+    font-size: 1.25rem;
+    font-weight: 400;
+    margin-bottom: 0.75rem;
+  }
+
+  .method-desc {
+    font-size: 0.88rem;
+    color: var(--muted);
+    max-width: 380px;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  .structure-section {
+    padding: 8rem 4rem;
+    border-top: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 8rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: start;
+  }
+
+  .structure-left {
+    position: sticky;
+    top: 8rem;
+  }
+
+  .includes-list {
+    list-style: none;
+    margin-top: 2rem;
+  }
+  .includes-list li {
+    font-family: var(--sans);
+    font-size: 0.92rem;
+    color: rgba(245,240,235,0.75);
+    padding: 1.1rem 0;
+    border-bottom: 1px solid rgba(184,150,90,0.12);
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .includes-list li::before {
+    content: '—';
+    color: var(--accent);
+    opacity: 0.6;
+    flex-shrink: 0;
+    margin-top: 0.05rem;
+  }
+
+  /* Application form */
+  .apply-section {
+    padding: 8rem 4rem;
+    border-top: 1px solid var(--border);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .form-container {
+    margin-top: 4rem;
+    max-width: 620px;
+    background: var(--subtle);
+    padding: 3.5rem;
+    border: 1px solid var(--border);
+  }
+
+  .form-group {
+    margin-bottom: 2.5rem;
+  }
+
+  .form-group label {
+    display: block;
+    font-family: var(--sans);
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.8rem;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(245,240,235,0.15);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 0.95rem;
+    font-weight: 300;
+    padding: 0.8rem 0;
+    transition: border-color 0.3s;
+    outline: none;
+    resize: none;
+  }
+  .form-group input::placeholder,
+  .form-group textarea::placeholder {
+    color: rgba(136,136,136,0.4);
+    font-size: 0.88rem;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus {
+    border-color: rgba(184,150,90,0.5);
+  }
+
+  .form-note {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-top: 2rem;
+    margin-bottom: 0;
+    font-style: italic;
+  }
+
+  /* ─── THINKING PAGE ─── */
+  #thinking .hero {
+    min-height: 70vh;
+    align-items: center;
+  }
+
+  .thinking-body {
+    padding: 0 4rem 8rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .coming-soon-block {
+    padding: 6rem 0;
+    border-top: 1px solid var(--border);
+    max-width: 560px;
+  }
+
+  .email-capture {
+    margin-top: 4rem;
+    display: flex;
+    gap: 0;
+    max-width: 480px;
+  }
+
+  .email-capture input {
+    flex: 1;
+    background: transparent;
+    border: 1px solid rgba(245,240,235,0.15);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    font-weight: 300;
+    padding: 1rem 1.5rem;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  .email-capture input:focus {
+    border-color: rgba(184,150,90,0.4);
+  }
+  .email-capture input::placeholder {
+    color: rgba(136,136,136,0.4);
+    font-size: 0.85rem;
+  }
+
+  .email-capture button {
+    background: transparent;
+    border: 1px solid rgba(245,240,235,0.15);
+    border-left: none;
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 1rem 1.8rem;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s, border-color 0.3s;
+    white-space: nowrap;
+  }
+  .email-capture button:hover {
+    background: rgba(184,150,90,0.1);
+    border-color: rgba(184,150,90,0.4);
+    color: var(--accent);
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-up {
+    opacity: 0;
+    animation: fadeUp 0.9s ease forwards;
+  }
+  .fade-up:nth-child(1) { animation-delay: 0.1s; }
+  .fade-up:nth-child(2) { animation-delay: 0.25s; }
+  .fade-up:nth-child(3) { animation-delay: 0.4s; }
+  .fade-up:nth-child(4) { animation-delay: 0.55s; }
+
+  /* ─── MOBILE ─── */
+  @media (max-width: 900px) {
+    nav { padding: 1.5rem 2rem; }
+    .nav-links { gap: 1.5rem; }
+
+    .hero { padding: 0 2rem 5rem; }
+    .section { padding: 5rem 2rem; }
+
+    h1 { font-size: 2.5rem; }
+    h2 { font-size: 1.9rem; }
+
+    .home-section-2 {
+      padding: 5rem 2rem;
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+    .home-section-2 .left { position: static; }
+
+    .home-section-3,
+    .home-section-4 { padding: 5rem 2rem; }
+
+    .pillars-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .quote-cards {
+      grid-template-columns: 1fr;
+    }
+
+    .cta-section { padding: 6rem 2rem; }
+
+    footer {
+      padding: 3rem 2rem;
+      flex-direction: column;
+      gap: 1.5rem;
+      text-align: center;
+    }
+    .footer-right { text-align: center; }
+
+    .about-body { padding: 0 2rem 5rem; }
+    .about-grid {
+      grid-template-columns: 1fr;
+      gap: 4rem;
+    }
+    .about-sticky { position: static; }
+
+    .method-section { padding: 5rem 2rem; }
+    .method-grid { grid-template-columns: 1fr; }
+
+    .structure-section {
+      padding: 5rem 2rem;
+      grid-template-columns: 1fr;
+      gap: 4rem;
+    }
+    .structure-left { position: static; }
+
+    .apply-section { padding: 5rem 2rem; }
+    .form-container { padding: 2.5rem 2rem; }
+
+    .thinking-body { padding: 0 2rem 5rem; }
+    .email-capture { flex-direction: column; }
+    .email-capture button { border-left: 1px solid rgba(245,240,235,0.15); border-top: none; }
+
+    .nav-links li a { font-size: 0.7rem; }
+  }
+
+  @media (max-width: 600px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { gap: 1rem; }
+    .pillars-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── NAVIGATION ─── -->
+<nav>
+  <div class="nav-logo" onclick="showPage('home')">Fiona Liang</div>
+  <ul class="nav-links">
+    <li><a onclick="showPage('home')" class="active" id="nav-home">Home</a></li>
+    <li><a onclick="showPage('about')" id="nav-about">About</a></li>
+    <li><a onclick="showPage('work')" id="nav-work">Work With Me</a></li>
+    <li><a onclick="showPage('thinking')" id="nav-thinking">Thinking</a></li>
+  </ul>
+</nav>
+
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- PAGE 1: HOME                                -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="page active" id="home">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow fade-up">Self Discovery Atlas</div>
+      <div class="gold-line fade-up"></div>
+      <h1 class="fade-up">Inner architecture<br>for leaders at the edge<br>of their next evolution.</h1>
+      <p class="hero-sub fade-up">You've built something real. Now something in you is asking for more — not more achievement, but more alignment. This is where that work begins.</p>
+      <button class="btn-outlined fade-up" onclick="showPage('work')">→ Apply for Advisory</button>
+    </div>
+  </section>
+
+  <!-- Section 2: What This Is -->
+  <hr class="divider">
+  <div class="home-section-2">
+    <div class="left">
+      <div class="section-label">What This Is</div>
+      <h2>This is not coaching. It is not therapy. It is something more precise.</h2>
+    </div>
+    <div class="right">
+      <p>Self Discovery Atlas is a private advisory practice for high-performing leaders navigating the gap between external success and internal alignment.</p>
+      <p>The kind of gap that doesn't show up in your metrics. The kind that shows up at 2am, or in the moment after a win that should feel bigger than it does.</p>
+      <p>Fiona works with founders, executives, and creative entrepreneurs who are done performing their ambition — and ready to build from a different place entirely.</p>
+      <p>This is structural inner work. Methodical. Deep. Permanently integrating.</p>
+    </div>
+  </div>
+
+  <!-- Section 3: Who It's For -->
+  <hr class="divider">
+  <div class="home-section-3">
+    <div class="section-label">Who It's For</div>
+    <h2>Built for a specific kind of person.</h2>
+    <p style="margin-top: 2rem;">You are highly capable — and that capability has become its own kind of trap.</p>
+    <p>You move fast, decide well, and deliver consistently. But internally, something has quietly shifted. Rest feels like falling behind. Clarity feels harder to access than it used to. The version of success you're building no longer maps perfectly to the version of yourself you're becoming.</p>
+    <p>You don't need to be fixed. You need a framework for what's actually happening — and a practice for moving through it with intention.</p>
+    <p>Self Discovery Atlas is for leaders who are ready to do that work.</p>
+  </div>
+
+  <!-- Section 4: Methodology Tease -->
+  <div class="home-section-4">
+    <div class="inner">
+      <div class="section-label">The Method</div>
+      <h2>The Conscious Self-Actualization Method</h2>
+      <p style="margin-top: 1.5rem; max-width: 580px;">An 8-pillar framework developed at the intersection of psychology, strategy, existential alignment, and legacy thinking.</p>
+      <p style="max-width: 580px;">Not a curriculum. A living architecture — built around you, refined with you, integrated into how you actually lead and live.</p>
+
+      <div class="pillars-grid">
+        <div class="pillar-item">
+          <span class="pillar-num">01</span>
+          <div class="pillar-title">Radical self-honesty<br>without shame</div>
+        </div>
+        <div class="pillar-item">
+          <span class="pillar-num">02</span>
+          <div class="pillar-title">Trigger intelligence &<br>blind spot illumination</div>
+        </div>
+        <div class="pillar-item">
+          <span class="pillar-num">03</span>
+          <div class="pillar-title">Mastery of inner game<br>to reduce external friction</div>
+        </div>
+        <div class="pillar-item">
+          <span class="pillar-num">04</span>
+          <div class="pillar-title">Vitality<br>reintegration</div>
+        </div>
+        <div class="pillar-item">
+          <span class="pillar-num">05</span>
+          <div class="pillar-title">Ambition<br>alignment</div>
+        </div>
+        <div class="pillar-item">
+          <span class="pillar-num">06</span>
+          <div class="pillar-title">Peace as<br>strategic anchor</div>
+        </div>
+        <div class="pillar-item">
+          <span class="pillar-num">07</span>
+          <div class="pillar-title">Existential<br>integration</div>
+        </div>
+        <div class="pillar-item">
+          <span class="pillar-num">08</span>
+          <div class="pillar-title">Conscious decision<br>architecture</div>
+        </div>
+      </div>
+
+      <div style="margin-top: 3rem;">
+        <button class="btn" onclick="showPage('work')">Learn more about the method →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 5: Social Proof Placeholder -->
+  <hr class="divider">
+  <div class="quote-section">
+    <div class="section-label">Testimonials</div>
+    <h2>What shifts when the inner architecture changes.</h2>
+    <div class="quote-cards">
+      <div class="quote-card">
+        <div class="quote-placeholder">Client result — coming soon</div>
+      </div>
+      <div class="quote-card">
+        <div class="quote-placeholder">Client result — coming soon</div>
+      </div>
+      <div class="quote-card">
+        <div class="quote-placeholder">Client result — coming soon</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 6: Closing CTA -->
+  <hr class="divider">
+  <div class="cta-section">
+    <h2>This practice holds<br>five people at a time.</h2>
+    <p>Engagements are invitation-based and begin with a conversation. If you feel a resonance with this work — reach out.</p>
+    <button class="btn-outlined" onclick="showPage('work')">→ Apply for Advisory</button>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-left">Fiona Liang | Self Discovery Atlas</div>
+    <div class="footer-right">
+      @iamfionaliang · FionaLiang.com<br>
+      <span style="opacity:0.5;">Inner architecture for high-performing leaders.</span>
+    </div>
+  </footer>
+
+</div>
+
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- PAGE 2: ABOUT                              -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="page" id="about">
+
+  <!-- Hero -->
+  <section class="hero" style="min-height: 75vh; align-items: center;">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow fade-up">About Fiona</div>
+      <div class="gold-line fade-up"></div>
+      <h1 class="fade-up" style="font-style: italic;">I've spent my career inside<br>the architecture of<br>the human mind.</h1>
+    </div>
+  </section>
+
+  <!-- About Body -->
+  <div class="about-body">
+    <div class="about-grid">
+
+      <!-- Sticky left -->
+      <div class="about-sticky">
+        <div class="section-label">Origin</div>
+        <h3 style="font-style: italic; margin-bottom: 2rem;">A practice built from the inside out.</h3>
+        <p style="font-size: 0.9rem;">Psychotherapist. Artist.<br>Founder of Self Discovery Atlas.</p>
+        <div style="margin-top: 3rem;">
+          <ul class="credentials-list">
+            <li>Clinical psychotherapy training</li>
+            <li>Founder, Self Discovery Atlas</li>
+            <li>Featured in Voyage Miami</li>
+            <li>Creator, The Moon Series (ongoing)</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Right: text blocks -->
+      <div>
+        <div class="about-text-block">
+          <p>I trained as a psychotherapist. I spent years working at the level most people never go — sitting with high-functioning humans in the space beneath the persona, beneath the performance, beneath the story they've been telling themselves about who they are.</p>
+          <p>What I kept seeing, over and over, was this:</p>
+          <p style="font-family: var(--serif); font-size: 1.35rem; font-style: italic; color: var(--text); max-width: 520px; line-height: 1.5; margin-bottom: 1.8rem;">The most capable people in the room were often the loneliest in their own inner lives.</p>
+          <p>Not because they lacked intelligence or self-awareness. They had plenty of both. But because the very systems that made them successful — the discipline, the drive, the ability to suppress and override — were also the systems standing between them and the version of themselves they were quietly trying to become.</p>
+          <p>I built Self Discovery Atlas for them. For you.</p>
+        </div>
+
+        <div class="about-text-block">
+          <h3>This isn't therapy. And it isn't coaching.</h3>
+          <p>Therapy looks backward to heal. Coaching looks forward to perform. What I do lives in a different register entirely.</p>
+          <p>I work with the underlying structure — the belief architecture, the identity constructs, the unconscious agreements you've made about what you're allowed to want, who you're allowed to be, and how much is enough.</p>
+          <p>When that structure changes, everything built on top of it changes. Not gradually. Structurally.</p>
+          <p>That's the work.</p>
+        </div>
+
+        <div class="about-text-block">
+          <h3>The foundation</h3>
+          <p>I've spent years at the intersection of psychology, creative practice, and high-performance environments — developing a methodology that honors both the precision of clinical training and the fluidity of lived experience.</p>
+          <p>My work has been featured in Voyage Miami.</p>
+          <p>The Moon Series — an ongoing body of artwork — is a parallel expression of this practice: an exploration of cycles, visibility, and what it means to be fully seen.</p>
+        </div>
+
+        <div class="about-text-block">
+          <p style="font-family: var(--serif); font-size: 1.2rem; font-style: italic; color: rgba(245,240,235,0.8); max-width: 500px;">If any of this resonates — not just intellectually, but in that quieter place — I'd welcome a conversation.</p>
+          <div style="margin-top: 2.5rem;">
+            <button class="btn-outlined" onclick="showPage('work')">→ Work With Me</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-left">Fiona Liang | Self Discovery Atlas</div>
+    <div class="footer-right">@iamfionaliang · FionaLiang.com</div>
+  </footer>
+</div>
+
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- PAGE 3: WORK WITH ME                       -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="page" id="work">
+
+  <!-- Hero -->
+  <section class="hero" style="min-height: 85vh;">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow fade-up">The Inner Architect</div>
+      <div class="gold-line fade-up"></div>
+      <h1 class="fade-up">Private Strategic Inner Architecture<br>for High-Performing Leaders</h1>
+      <p class="hero-sub fade-up">An invitation-only advisory practice.<br>Five people at a time.</p>
+    </div>
+  </section>
+
+  <!-- Who This Is For -->
+  <hr class="divider">
+  <div class="method-section">
+    <div class="section-label">Who This Is For</div>
+    <h2>This engagement is built for a specific threshold.</h2>
+    <div style="margin-top: 3rem; max-width: 740px;">
+      <p>You are at the top of your field — or approaching it. You have built real things: companies, careers, creative bodies of work, reputations that precede you.</p>
+      <p>And something has shifted.</p>
+      <p>The drive is still there, but it's running on a different kind of fuel than it used to. Achievement still happens, but the meaning is harder to locate. You find yourself asking questions that don't have obvious answers — about legacy, about alignment, about who you actually are beneath what you've built.</p>
+      <p style="font-family: var(--serif); font-size: 1.3rem; font-style: italic; color: rgba(245,240,235,0.85); line-height: 1.5; margin-bottom: 2rem;">This is not a crisis. This is an invitation.</p>
+      <p>Self Discovery Atlas exists for leaders who are ready to answer it. You may be:</p>
+      <ul style="list-style: none; margin-top: 1.5rem; margin-bottom: 0;">
+        <li style="font-family: var(--sans); font-size: 0.92rem; color: rgba(245,240,235,0.72); padding: 0.8rem 0; border-bottom: 1px solid rgba(184,150,90,0.1); padding-left: 1.5rem; position: relative;">
+          <span style="position:absolute;left:0;color:var(--accent);opacity:0.6;">—</span>
+          A founder or post-exit entrepreneur in a season of reinvention
+        </li>
+        <li style="font-family: var(--sans); font-size: 0.92rem; color: rgba(245,240,235,0.72); padding: 0.8rem 0; border-bottom: 1px solid rgba(184,150,90,0.1); padding-left: 1.5rem; position: relative;">
+          <span style="position:absolute;left:0;color:var(--accent);opacity:0.6;">—</span>
+          A senior executive navigating a significant internal or professional shift
+        </li>
+        <li style="font-family: var(--sans); font-size: 0.92rem; color: rgba(245,240,235,0.72); padding: 0.8rem 0; border-bottom: 1px solid rgba(184,150,90,0.1); padding-left: 1.5rem; position: relative;">
+          <span style="position:absolute;left:0;color:var(--accent);opacity:0.6;">—</span>
+          A high-performing creative whose outer output has outpaced inner coherence
+        </li>
+        <li style="font-family: var(--sans); font-size: 0.92rem; color: rgba(245,240,235,0.72); padding: 0.8rem 0; padding-left: 1.5rem; position: relative;">
+          <span style="position:absolute;left:0;color:var(--accent);opacity:0.6;">—</span>
+          A public-facing leader who needs a private space for genuine depth
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- The Method: 8 Pillars -->
+  <hr class="divider">
+  <div class="method-section">
+    <div class="section-label">The Methodology</div>
+    <h2>The Conscious Self-Actualization Method</h2>
+    <p style="margin-top: 1.5rem;">An 8-pillar framework developed over years of clinical work, research, and direct engagement with high-performing individuals.</p>
+
+    <div class="method-grid">
+      <div class="method-item">
+        <span class="method-num">01</span>
+        <div class="method-title">Radical self-honesty without shame</div>
+        <p class="method-desc">Seeing clearly without collapsing. The foundation of everything.</p>
+      </div>
+      <div class="method-item">
+        <span class="method-num">02</span>
+        <div class="method-title">Trigger intelligence & blind spot illumination</div>
+        <p class="method-desc">Understanding your reactive patterns at the structural level — not just managing them.</p>
+      </div>
+      <div class="method-item">
+        <span class="method-num">03</span>
+        <div class="method-title">Mastery of inner game to reduce external friction</div>
+        <p class="method-desc">How internal clarity translates directly into sharper decisions, fewer conflicts, better leadership.</p>
+      </div>
+      <div class="method-item">
+        <span class="method-num">04</span>
+        <div class="method-title">Vitality reintegration</div>
+        <p class="method-desc">Reclaiming the energy that performance has quietly been borrowing from.</p>
+      </div>
+      <div class="method-item">
+        <span class="method-num">05</span>
+        <div class="method-title">Ambition alignment</div>
+        <p class="method-desc">Separating who you are from what you've achieved — and rebuilding ambition on that distinction.</p>
+      </div>
+      <div class="method-item">
+        <span class="method-num">06</span>
+        <div class="method-title">Peace as strategic anchor</div>
+        <p class="method-desc">Not stillness as retreat. Peace as the most powerful operating state available to you.</p>
+      </div>
+      <div class="method-item">
+        <span class="method-num">07</span>
+        <div class="method-title">Existential integration</div>
+        <p class="method-desc">Meaning. Legacy. Multi-generational impact. The questions that don't go away — addressed directly.</p>
+      </div>
+      <div class="method-item">
+        <span class="method-num">08</span>
+        <div class="method-title">Conscious decision architecture</div>
+        <p class="method-desc">How you make choices when operating from integrated clarity rather than conditioned reaction.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- What's Included -->
+  <hr class="divider">
+  <div class="structure-section">
+    <div class="structure-left">
+      <div class="section-label">The Structure</div>
+      <h2>The structure of this work</h2>
+      <p style="margin-top: 1.5rem;">This is a minimum 3-month engagement, designed for depth — not quick fixes.</p>
+      <p>The first six weeks are intensive: weekly 60-minute sessions focused on deep mapping.</p>
+      <p>Beyond that, we build the cadence that serves your evolution — not a one-size framework.</p>
+      <p style="font-family: var(--serif); font-style: italic; font-size: 1.1rem; color: rgba(245,240,235,0.75);">Maximum five concurrent clients. This is by design.</p>
+    </div>
+    <div>
+      <div class="section-label" style="margin-bottom: 1rem;">Every engagement includes</div>
+      <ul class="includes-list">
+        <li>Weekly 60-minute sessions (first 6 weeks)</li>
+        <li>Voice note access Monday–Friday for integration support between sessions</li>
+        <li>Quarterly deep-dive vision recalibration</li>
+        <li>Personalized integration rituals developed specifically for you</li>
+      </ul>
+      <p style="margin-top: 3rem; font-size: 0.82rem; color: var(--muted); font-style: italic;">No public pricing. This practice does not operate on open enrollment. Engagements begin on a rolling basis as space becomes available.</p>
+    </div>
+  </div>
+
+  <!-- Application -->
+  <hr class="divider">
+  <div class="apply-section">
+    <div class="section-label">How to Begin</div>
+    <h2>The next step is a conversation.</h2>
+    <p style="margin-top: 1.5rem; max-width: 560px;">If you've read this far and something in you recognizes this work — that recognition is worth paying attention to. This is not a sales call. A genuine conversation to understand where you are and whether this is the right fit, for both of us.</p>
+
+    <form class="form-container" action="https://formspree.io/f/xvzwegpa" method="POST">
+      <div class="form-group">
+        <label>Your Name</label>
+        <input type="text" name="name" placeholder="First and last name" required>
+      </div>
+      <div class="form-group">
+        <label>What You Do</label>
+        <input type="text" name="role" placeholder="Title, company, or brief description" required>
+      </div>
+      <div class="form-group">
+        <label>What's Bringing You Here</label>
+        <textarea rows="5" name="message" placeholder="Share as much or as little as feels right." required></textarea>
+      </div>
+      <div class="form-group">
+        <label>How Did You Find Fiona</label>
+        <input type="text" name="referral" placeholder="LinkedIn, referral, Instagram, other…">
+      </div>
+      <div style="margin-top: 1rem;">
+        <button class="btn-outlined" type="submit">→ Submit Application</button>
+      </div>
+      <p class="form-note">Fiona reviews all applications personally and responds within 5–7 business days.</p>
+    </form>
+  </div>
+
+  <footer>
+    <div class="footer-left">Fiona Liang | Self Discovery Atlas</div>
+    <div class="footer-right">@iamfionaliang · FionaLiang.com</div>
+  </footer>
+</div>
+
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- PAGE 4: THINKING                           -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="page" id="thinking">
+
+  <!-- Hero -->
+  <section class="hero" style="min-height: 65vh; align-items: center;">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow fade-up">Thinking</div>
+      <div class="gold-line fade-up"></div>
+      <h1 class="fade-up" style="font-style: italic; font-size: clamp(2.2rem, 5vw, 4rem);">Essays, frameworks, and dispatches<br>on inner architecture.</h1>
+      <p class="hero-sub fade-up">Coming soon.</p>
+    </div>
+  </section>
+
+  <!-- Body -->
+  <div class="thinking-body">
+    <hr class="divider" style="margin: 0 0 0 0;">
+    <div class="coming-soon-block" style="padding-top: 5rem;">
+      <div class="section-label">From Fiona</div>
+      <p>This is where Fiona's writing will live — long-form thinking on consciousness, leadership, creative intelligence, and the structural work of becoming.</p>
+      <p>New essays publish when the work is ready. Subscribe to be notified.</p>
+
+      <div class="email-capture">
+        <input type="email" placeholder="your@email.com">
+        <button>Notify me</button>
+      </div>
+
+      <div style="margin-top: 4rem;">
+        <div class="section-label" style="margin-bottom: 1.2rem;">In the meantime</div>
+        <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 1.5rem;">Follow along on Instagram for shorter dispatches.</p>
+        <a href="https://instagram.com/iamfionaliang" target="_blank" class="btn">→ Follow @iamfionaliang on Instagram</a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-left">Fiona Liang | Self Discovery Atlas</div>
+    <div class="footer-right">@iamfionaliang · FionaLiang.com</div>
+  </footer>
+</div>
+
+
+<!-- ─── JS: Page routing ─── -->
+<script>
+  function showPage(id) {
+    // Hide all pages
+    document.querySelectorAll('.page').forEach(p => {
+      p.classList.remove('active');
+      p.style.display = 'none';
+      p.style.opacity = '0';
+      p.style.transform = 'translateY(12px)';
+    });
+
+    // Update nav
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+    const navEl = document.getElementById('nav-' + id);
+    if (navEl) navEl.classList.add('active');
+
+    // Show target page
+    const page = document.getElementById(id);
+    if (!page) return;
+    page.style.display = 'block';
+
+    // Re-trigger animations
+    page.querySelectorAll('.fade-up').forEach(el => {
+      el.style.animation = 'none';
+      el.offsetHeight; // reflow
+      el.style.animation = '';
+    });
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        page.style.opacity = '1';
+        page.style.transform = 'translateY(0)';
+        page.classList.add('active');
+      });
+    });
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Init first page
+  (function() {
+    const first = document.getElementById('home');
+    first.style.display = 'block';
+    setTimeout(() => {
+      first.style.opacity = '1';
+      first.style.transform = 'translateY(0)';
+    }, 50);
+  })();
+</script>
+
+</body>
+</html>
